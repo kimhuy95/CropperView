@@ -254,7 +254,25 @@ public class CropImageView extends AppCompatImageView {
      * @return a new Bitmap representing the cropped image
      */
     public Bitmap getCroppedImage() {
+        final Drawable drawable = getDrawable();
+        if (drawable == null || !(drawable instanceof BitmapDrawable)) {
+            return null;
+        }
 
+        final Bitmap originalBitmap = ((BitmapDrawable) drawable).getBitmap();
+
+        CropRect cropRect = getCropRect();
+
+        // Crop the subset from the original Bitmap.
+        return Bitmap.createBitmap(originalBitmap, cropRect.getX(), cropRect.getY(), cropRect.getWidth(), cropRect.getHeight());
+    }
+
+    /**
+     * Gets the crop window rect
+     *
+     * @return a crop rect
+     */
+    public CropRect getCropRect() {
         // Implementation reference: http://stackoverflow.com/a/26930938/1068656
 
         final Drawable drawable = getDrawable();
@@ -288,12 +306,7 @@ public class CropImageView extends AppCompatImageView {
         final float cropWidth = Math.min(Edge.getWidth() / scaleX, originalBitmap.getWidth() - cropX);
         final float cropHeight = Math.min(Edge.getHeight() / scaleY, originalBitmap.getHeight() - cropY);
 
-        // Crop the subset from the original Bitmap.
-        return Bitmap.createBitmap(originalBitmap,
-                (int) cropX,
-                (int) cropY,
-                (int) cropWidth,
-                (int) cropHeight);
+        return new CropRect((int) cropX, (int) cropY, (int) cropWidth, (int) cropHeight);
     }
 
     // Private Methods /////////////////////////////////////////////////////////////////////////////
