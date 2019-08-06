@@ -309,6 +309,21 @@ public class CropImageView extends AppCompatImageView {
         return new CropRect((int) cropX, (int) cropY, (int) cropWidth, (int) cropHeight);
     }
 
+    /**
+     * Gets the raw crop window rect
+     *
+     * @return a raw crop rect
+     */
+    public CropRect getRawCropRect() {
+        final float cropX = Edge.LEFT.getCoordinate();
+        final float cropY = Edge.TOP.getCoordinate();
+
+        final float cropWidth = Edge.getWidth();
+        final float cropHeight = Edge.getHeight();
+
+        return new CropRect((int) cropX, (int) cropY, (int) cropWidth, (int) cropHeight);
+    }
+
     // Private Methods /////////////////////////////////////////////////////////////////////////////
 
     /**
