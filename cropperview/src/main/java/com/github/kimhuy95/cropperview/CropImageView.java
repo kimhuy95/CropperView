@@ -183,7 +183,18 @@ public class CropImageView extends AppCompatImageView {
 
             case MotionEvent.ACTION_DOWN:
                 onActionDown(event.getX(), event.getY());
-                return true;
+                if (mPressedHandle == null) {
+                    return false;
+                }
+                switch (mPressedHandle) {
+                    case TOP:
+                    case LEFT:
+                    case BOTTOM:
+                    case RIGHT:
+                        return false;
+                    default:
+                        return true;
+                }
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
